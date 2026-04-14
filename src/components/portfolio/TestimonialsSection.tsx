@@ -1,11 +1,6 @@
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
-
-const testimonials = [
-  { text: 'Avery turns rough ideas into memorable interfaces. The details always feel intentional, never decorative.', name: 'Priya R.', role: 'Product Designer' },
-  { text: 'The final build looked exactly like the concept boards, but ran smoother than we expected.', name: 'Nate M.', role: 'Startup Founder' },
-  { text: 'Best mix of creative direction and engineering rigor I have worked with on any project.', name: 'Lina K.', role: 'Engineering Manager' },
-];
+import { testimonials } from '@/data/portfolio';
 
 const TestimonialsSection = () => {
   const ref = useRef<HTMLElement>(null);
@@ -13,8 +8,8 @@ const TestimonialsSection = () => {
 
   return (
     <section id="testimonials" className="section" ref={ref}>
-      <p className="section-label">kind words</p>
-      <h2>Notes from people I <span className="accent">built with</span></h2>
+      <p className="section-label">proof points</p>
+      <h2>Recent work <span className="accent">highlights</span></h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-7" style={{ perspective: 1000 }}>
         {testimonials.map((t, i) => (
           <motion.div
@@ -36,10 +31,10 @@ const TestimonialsSection = () => {
               style={{ fontFamily: 'var(--font-serif)', color: 'hsl(var(--yellow))' }}>
               &ldquo;
             </span>
-            <p className="text-[1.1rem] leading-relaxed mb-[18px]" style={{ color: 'hsl(var(--ink-light))' }}>{t.text}</p>
+            <p className="text-[1.5rem] leading-relaxed mb-[18px]" style={{ color: 'hsl(var(--ink-light))' }}>{t.text}</p>
             <footer className="flex flex-col">
-              <strong style={{ fontFamily: 'var(--font-hand)', fontSize: '1.1rem' }}>{t.name}</strong>
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: 'hsl(var(--ink-faint))' }}>{t.role}</span>
+              <strong style={{ fontFamily: 'var(--font-hand)', fontSize: '1.5rem' }}>{t.name}</strong>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '1.5rem', color: 'hsl(var(--ink-faint))' }}>{t.role}</span>
             </footer>
             {/* Torn bottom */}
             <div className="absolute bottom-0 left-0 right-0 h-1.5"

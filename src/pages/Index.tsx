@@ -11,7 +11,11 @@ import ProjectsSection from '@/components/portfolio/ProjectsSection';
 import TimelineSection from '@/components/portfolio/TimelineSection';
 import TestimonialsSection from '@/components/portfolio/TestimonialsSection';
 import ContactSection from '@/components/portfolio/ContactSection';
+import VideoSection from '@/components/portfolio/VideoSection';
+import { CustomCursor } from '@/components/portfolio/CustomCursor';
+import { PaperTearReveal } from '@/components/portfolio/PaperTearReveal';
 import Footer from '@/components/portfolio/Footer';
+import { ChatbotWidget } from '@/components/portfolio/ChatbotWidget';
 
 const Index = () => {
   // Fade hero canvas on scroll
@@ -28,26 +32,53 @@ const Index = () => {
 
   return (
     <>
+      <CustomCursor />
       <div style={{ opacity: canvasOpacity }}>
         <HeroCanvas />
       </div>
       <ScrollProgress />
       <Navbar />
       <HeroSection />
-      <WavyDivider variant={0} />
-      <AboutSection />
-      <WavyDivider variant={1} />
-      <SkillsMarquee />
-      <SkillsSection />
-      <WavyDivider variant={2} />
-      <ProjectsSection />
-      <WavyDivider variant={3} />
-      <TimelineSection />
-      <WavyDivider variant={0} />
-      <TestimonialsSection />
-      <WavyDivider variant={1} />
-      <ContactSection />
+      
+      <PaperTearReveal delay={0.1}>
+        <WavyDivider variant={0} />
+        <VideoSection />
+      </PaperTearReveal>
+      
+      <PaperTearReveal delay={0.1}>
+        <WavyDivider variant={2} />
+        <AboutSection />
+      </PaperTearReveal>
+
+      <PaperTearReveal delay={0.1}>
+        <WavyDivider variant={1} />
+        <SkillsMarquee />
+        <SkillsSection />
+      </PaperTearReveal>
+
+      <PaperTearReveal delay={0.1}>
+        <WavyDivider variant={2} />
+        <ProjectsSection />
+      </PaperTearReveal>
+
+      <PaperTearReveal delay={0.1}>
+        <WavyDivider variant={3} />
+        <TimelineSection />
+      </PaperTearReveal>
+
+      <PaperTearReveal delay={0.1}>
+        <WavyDivider variant={0} />
+        <TestimonialsSection />
+      </PaperTearReveal>
+
+      <PaperTearReveal delay={0.1}>
+        <WavyDivider variant={1} />
+        <ContactSection />
+      </PaperTearReveal>
+      
       <Footer />
+      
+      <ChatbotWidget />
     </>
   );
 };

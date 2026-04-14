@@ -1,19 +1,20 @@
-import { useRef, useMemo } from 'react';
+import { useRef, useMemo, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
+import { useSpring, a } from '@react-spring/three';
 
 const WireframeSphere = () => {
   const ref = useRef<THREE.Mesh>(null);
   useFrame(() => {
     if (ref.current) {
-      ref.current.rotation.y += 0.002;
-      ref.current.rotation.x += 0.001;
+      ref.current.rotation.y += 0.0015;
+      ref.current.rotation.x += 0.0008;
     }
   });
   return (
     <mesh ref={ref}>
-      <icosahedronGeometry args={[2.5, 2]} />
-      <meshBasicMaterial wireframe transparent opacity={0.15} color="#1c1c1c" />
+      <icosahedronGeometry args={[4.5, 2]} />
+      <meshBasicMaterial wireframe transparent opacity={0.12} color="#1c1c1c" />
     </mesh>
   );
 };
@@ -26,20 +27,33 @@ const FloatingShape = ({ geo, color, position, speed }: { geo: THREE.BufferGeome
       ref.current.rotation.y += speed;
     }
   });
+
+  const [hovered, setHovered] = useState(false);
+  const { scale } = useSpring({ scale: hovered ? 1.5 : 1, config: { mass: 1, tension: 500, friction: 15 }});
+  const animatedScale = scale.to((s) => [s, s, s] as [number, number, number]);
+
   return (
-    <mesh ref={ref} position={position} geometry={geo}>
+    <a.mesh 
+      ref={ref}
+      position={position} 
+      geometry={geo} 
+      scale={animatedScale}
+      onPointerOver={() => setHovered(true)}
+      onPointerOut={() => setHovered(false)}
+    >
       <meshBasicMaterial color={color} transparent opacity={0.6} />
-    </mesh>
+    </a.mesh>
   );
 };
 
 const Scraps = () => {
   const meshes = useMemo(() => {
-    return Array.from({ length: 30 }, () => ({
-      pos: [(Math.random() - 0.5) * 15, (Math.random() - 0.5) * 15, (Math.random() - 0.5) * 10 - 2] as [number, number, number],
+    return Array.from({ length: 60 }, () => ({
+      pos: [(Math.random() - 0.5) * 20, (Math.random() - 0.5) * 20, (Math.random() - 0.5) * 15 - 2] as [number, number, number],
       rot: [Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI] as [number, number, number],
-      rx: Math.random() * 0.02 - 0.01,
-      ry: Math.random() * 0.02 - 0.01,
+      rx: (Math.random() - 0.5) * 0.02,
+      ry: (Math.random() - 0.5) * 0.02,
+      scale: 0.1 + Math.random() * 0.3
     }));
   }, []);
 
@@ -50,16 +64,16 @@ const Scraps = () => {
       if (!mesh) return;
       mesh.rotation.x += meshes[i].rx;
       mesh.rotation.y += meshes[i].ry;
-      mesh.position.y += Math.sin(clock.elapsedTime + mesh.position.x) * 0.002;
+      mesh.position.y += Math.sin(clock.elapsedTime + mesh.position.x) * 0.003;
     });
   });
 
   return (
     <>
       {meshes.map((m, i) => (
-        <mesh key={i} ref={el => { refs.current[i] = el; }} position={m.pos} rotation={m.rot}>
-          <planeGeometry args={[0.2, 0.2]} />
-          <meshBasicMaterial color="#1c1c1c" side={THREE.DoubleSide} transparent opacity={0.2} />
+        <mesh key={i} ref={el => { refs.current[i] = el; }} position={m.pos} rotation={m.rot} scale={[m.scale, m.scale, m.scale]}>
+          <planeGeometry args={[1, 1]} />
+          <meshBasicMaterial color="#1c1c1c" side={THREE.DoubleSide} transparent opacity={0.12} />
         </mesh>
       ))}
     </>
@@ -68,20 +82,23 @@ const Scraps = () => {
 
 const Scene = () => {
   const geos = useMemo(() => ({
-    tetra: new THREE.TetrahedronGeometry(0.6),
-    octa: new THREE.OctahedronGeometry(0.5),
-    box: new THREE.BoxGeometry(0.8, 0.8, 0.8),
-    cone: new THREE.ConeGeometry(0.5, 1, 4),
+    tetra: new THREE.TetrahedronGeometry(0.8),
+    octa: new THREE.OctahedronGeometry(0.7),
+    box: new THREE.BoxGeometry(1, 1, 1),
+    cone: new THREE.ConeGeometry(0.7, 1.5, 4),
+    torus: new THREE.TorusGeometry(0.5, 0.2, 8, 20),
   }), []);
 
   return (
     <>
       <fog attach="fog" args={['#f7f5ef', 5, 25]} />
       <WireframeSphere />
-      <FloatingShape geo={geos.tetra} color="#ffd15c" position={[3, 2, 1]} speed={0.012} />
-      <FloatingShape geo={geos.octa} color="#ff6b9d" position={[-3, -2, 2]} speed={0.008} />
-      <FloatingShape geo={geos.box} color="#ffd15c" position={[-4, 2, -1]} speed={0.015} />
-      <FloatingShape geo={geos.cone} color="#ff6b9d" position={[4, -1.5, 0]} speed={0.01} />
+      <FloatingShape geo={geos.tetra} color="#ffd15c" position={[4, 3, 1]} speed={0.01} />
+      <FloatingShape geo={geos.octa} color="#ff6b9d" position={[-5, -2.5, 2]} speed={0.006} />
+      <FloatingShape geo={geos.box} color="#ffd15c" position={[-6, 3, -1]} speed={0.012} />
+      <FloatingShape geo={geos.cone} color="#ff6b9d" position={[5, -2, 0]} speed={0.008} />
+      <FloatingShape geo={geos.torus} color="#6bcb77" position={[0, -4, -2]} speed={0.015} />
+      <FloatingShape geo={geos.octa} color="#6bcb77" position={[-1, 5, -3]} speed={0.01} />
       <Scraps />
     </>
   );

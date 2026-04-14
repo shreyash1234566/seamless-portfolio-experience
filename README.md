@@ -1,3 +1,3 @@
-# Welcome to your Lovable project
+# Shreyash Portfolio
 
-TODO: Document your project here
+Personal portfolio website built with React, Vite, Tailwind CSS, and Three.js.

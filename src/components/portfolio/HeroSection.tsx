@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import PortraitSVG from './PortraitSVG';
+import { heroContent } from '@/data/portfolio';
 
 const HeroSection = () => {
   const sectionRef = useRef<HTMLElement>(null);
@@ -18,27 +19,27 @@ const HeroSection = () => {
     <section
       id="hero"
       ref={sectionRef}
-      className="relative min-h-screen grid grid-cols-1 md:grid-cols-2 items-center gap-10 overflow-hidden"
-      style={{ maxWidth: 1300, margin: '0 auto', padding: '100px 60px 60px' }}
+      className="relative min-h-screen grid grid-cols-1 md:grid-cols-2 items-center gap-12 overflow-hidden mx-auto w-full max-w-[1500px]"
+      style={{ padding: '120px 80px 80px' }}
     >
       {/* Left: text */}
       <motion.div className="relative z-[2]" style={{ y: contentY, opacity }}>
         <p className="flex items-center gap-2.5 mb-4"
-          style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'hsl(var(--ink-light))' }}>
-          <span className="inline-block w-7 h-px" style={{ background: 'hsl(var(--ink-light))' }} />
-          frontend developer & creative coder
+          style={{ fontFamily: 'var(--font-mono)', fontSize: '1.5rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'hsl(var(--ink-light))' }}>
+          <span className="inline-block w-10 h-px" style={{ background: 'hsl(var(--ink-light))' }} />
+          {heroContent.subtitle}
         </p>
 
         <motion.h1
-          className="mb-6"
-          style={{ fontFamily: 'var(--font-serif)', fontSize: 'clamp(2.6rem, 5.5vw, 4.8rem)', lineHeight: 1.1, letterSpacing: '-0.02em' }}
+          className="mb-8"
+          style={{ fontFamily: 'var(--font-serif)', fontSize: 'clamp(4rem, 8vw, 7.5rem)', lineHeight: 1.05, letterSpacing: '-0.02em' }}
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          I draw interfaces<br />that feel{' '}
+          {heroContent.titleLine1}<br />
           <em className="italic relative inline-block">
-            alive
+            {heroContent.titleAccent.replace('that feel ', '')}
             <span
               className="absolute bottom-0 left-0 right-0 h-2 -z-10"
               style={{
@@ -53,36 +54,34 @@ const HeroSection = () => {
         </motion.h1>
 
         <motion.p
-          className="mb-9"
-          style={{ fontSize: '1.25rem', color: 'hsl(var(--ink-light))', maxWidth: 440 }}
+          className="mb-10"
+          style={{ fontSize: '1.95rem', color: 'hsl(var(--ink-light))', maxWidth: 520, lineHeight: 1.6 }}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.6 }}
         >
-          Hi — this page is half <strong style={{ color: 'hsl(var(--ink))' }}>sketchbook</strong>, half experiment.
-          I build playful, cinematic web experiences where the engineering is precise
-          but the feeling is <strong style={{ color: 'hsl(var(--ink))' }}>handmade</strong>.
+          {heroContent.description}
         </motion.p>
 
         <motion.div
-          className="flex gap-3.5 items-center flex-wrap"
+          className="flex gap-5 items-center flex-wrap"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.6 }}
         >
-          <a href="#contact" className="btn-sketch">Let's talk →</a>
-          <a href="#projects" className="btn-sketch outline">See my work</a>
+          <a href={heroContent.ctas[0].href} className="btn-sketch" style={{ fontSize: '1.5rem', padding: '12px 28px' }}>{heroContent.ctas[0].label} →</a>
+          <a href={heroContent.ctas[1].href} className="btn-sketch outline" style={{ fontSize: '1.5rem', padding: '12px 28px' }}>{heroContent.ctas[1].label}</a>
         </motion.div>
       </motion.div>
 
       {/* Right: GTA-style parallax portrait */}
       <motion.div
-        className="relative z-[2] flex justify-center items-center"
-        style={{ y: portraitY, perspective: 1000 }}
+        className="relative z-[2] flex justify-center items-center w-full"
+        style={{ y: portraitY, perspective: 1200 }}
       >
         <motion.div
           className="relative"
-          style={{ width: 340, height: 420, transformStyle: 'preserve-3d' }}
+          style={{ width: 'min(460px, 100%)', height: 560, transformStyle: 'preserve-3d' }}
           whileHover={{ rotateX: -5, rotateY: 5, scale: 1.05 }}
           transition={{ type: 'spring', stiffness: 200, damping: 20 }}
         >
@@ -126,7 +125,7 @@ const HeroSection = () => {
           transform: 'translateX(-50%)',
           color: 'hsl(var(--ink-faint))',
           fontFamily: 'var(--font-mono)',
-          fontSize: '0.7rem',
+          fontSize: '1.5rem',
           letterSpacing: '0.1em',
           animation: 'bounce 2.5s cubic-bezier(0.45,0,0.55,1) infinite',
         }}>

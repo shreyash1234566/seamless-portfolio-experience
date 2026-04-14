@@ -1,11 +1,7 @@
-const skills = [
-  'NEXT.JS', 'TYPESCRIPT', 'GSAP', 'THREE.JS', 'FRAMER MOTION',
-  'TAILWIND', 'REACT', 'FIGMA', 'NODE.JS', 'WEBGL',
-  'CSS ANIMATION', 'SUPABASE', 'VITE', 'GIT',
-];
+import { marqueeSkills } from '@/data/portfolio';
 
 const SkillsMarquee = () => {
-  const items = [...skills, ...skills]; // double for seamless loop
+  const items = [...marqueeSkills, ...marqueeSkills]; // double for seamless loop
   return (
     <div className="overflow-hidden relative z-[2]"
       style={{
@@ -18,7 +14,7 @@ const SkillsMarquee = () => {
         style={{ animation: 'marquee-scroll 28s linear infinite' }}>
         {items.map((skill, i) => (
           <div key={i} className="flex items-center gap-5 px-7 whitespace-nowrap"
-            style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'hsl(var(--ink-light))' }}>
+            style={{ fontFamily: 'var(--font-mono)', fontSize: '1.5rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'hsl(var(--ink-light))' }}>
             <span className="w-[5px] h-[5px] rounded-full shrink-0" style={{ background: 'hsl(var(--yellow))' }} />
             {skill}
           </div>

@@ -2,36 +2,7 @@ import { useState, useRef, Suspense } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Canvas } from '@react-three/fiber';
 import LaptopModel from './LaptopModel';
-
-const projects = [
-  {
-    title: 'Kinetic Portfolio',
-    desc: 'A hand-drawn portfolio with scroll-driven animations and 3D wireframe backgrounds.',
-    stack: ['React', 'Three.js', 'Framer Motion', 'Tailwind'],
-    screenColor: '#1e3a54',
-    screenAccent: '#6bcb77',
-    live: '#',
-    code: '#',
-  },
-  {
-    title: 'Sound Canvas',
-    desc: 'Audio visualization playground that maps frequencies to generative SVG patterns.',
-    stack: ['Web Audio API', 'Canvas', 'React', 'TypeScript'],
-    screenColor: '#2d1b4e',
-    screenAccent: '#ff6b9d',
-    live: '#',
-    code: '#',
-  },
-  {
-    title: 'Sketch Notes App',
-    desc: 'A minimal note-taking app styled like a physical notebook with pen strokes.',
-    stack: ['Next.js', 'Supabase', 'Tailwind', 'Framer Motion'],
-    screenColor: '#3b2a1a',
-    screenAccent: '#ffd15c',
-    live: '#',
-    code: '#',
-  },
-];
+import { projects, siteIdentity } from '@/data/portfolio';
 
 const ProjectsSection = () => {
   const [currentIdx, setCurrentIdx] = useState(0);
@@ -76,7 +47,7 @@ const ProjectsSection = () => {
           <div className="w-3 h-3 rounded-full" style={{ background: '#ff5f57', boxShadow: 'inset 1px 1px 2px rgba(255,255,255,0.4)' }} />
           <div className="w-3 h-3 rounded-full" style={{ background: '#febc2e', boxShadow: 'inset 1px 1px 2px rgba(255,255,255,0.4)' }} />
           <div className="w-3 h-3 rounded-full" style={{ background: '#28c840', boxShadow: 'inset 1px 1px 2px rgba(255,255,255,0.4)' }} />
-          <div className="flex-1 text-center" style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'hsl(var(--ink-light))' }}>
+          <div className="flex-1 text-center" style={{ fontFamily: 'var(--font-mono)', fontSize: '1.5rem', color: 'hsl(var(--ink-light))' }}>
             ~/projects
           </div>
         </div>
@@ -85,7 +56,7 @@ const ProjectsSection = () => {
           {/* Sidebar */}
           <div className="hidden md:flex flex-col gap-4 p-[18px_18px_24px]"
             style={{ background: '#f0efe9', borderRight: '1px solid rgba(28,28,28,0.08)' }}>
-            <div className="p-3 text-[0.95rem] leading-relaxed"
+            <div className="p-3 text-[1.5rem] leading-relaxed"
               style={{
                 background: 'hsl(var(--yellow-dim))',
                 border: '1px solid hsla(40,100%,68%,0.5)',
@@ -93,17 +64,27 @@ const ProjectsSection = () => {
                 boxShadow: '2px 2px 6px hsl(var(--shadow)/0.06)',
                 transform: 'rotate(-1.5deg)',
               }}>
-              Building things that feel alive, one commit at a time ✏️
+              Building production AI systems with measurable outcomes.
             </div>
             <div className="flex flex-col gap-2 mt-1">
-              {['→ resume.pdf', '→ github.com', '→ linkedin'].map(link => (
-                <a key={link} href="#" className="flex items-center gap-1.5 transition-all duration-200 hover:translate-x-1"
-                  style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'hsl(var(--blue))', textDecoration: 'none' }}>
-                  {link}
+              {[
+                { label: 'Resume PDF', href: '/shreyash_resume_v3.pdf' },
+                { label: 'GitHub Profile', href: siteIdentity.github },
+                { label: 'LinkedIn Profile', href: siteIdentity.linkedin },
+              ].map(link => (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center justify-center w-full px-4 py-2 mt-1 text-sm font-medium transition-colors border rounded-md shadow-sm border-border bg-background hover:bg-accent hover:text-accent-foreground"
+                  style={{ textDecoration: 'none' }}
+                >
+                  {link.label}
                 </a>
               ))}
             </div>
-            <div className="mt-auto text-center" style={{ fontFamily: 'var(--font-mono)', fontSize: '1.6rem', color: 'hsl(var(--ink-faint))', animation: 'wave-anim 2.5s ease-in-out infinite', transformOrigin: '70% 70%' }}>
+            <div className="mt-auto text-center" style={{ fontFamily: 'var(--font-mono)', fontSize: '2.08rem', color: 'hsl(var(--ink-faint))', animation: 'wave-anim 2.5s ease-in-out infinite', transformOrigin: '70% 70%' }}>
               o/
             </div>
           </div>
@@ -117,28 +98,36 @@ const ProjectsSection = () => {
                   <ambientLight intensity={0.7} />
                   <directionalLight position={[5, 5, 5]} intensity={0.5} />
                   <Suspense fallback={null}>
-                    <LaptopModel screenColor={p.screenColor} />
+                    <LaptopModel screenColor={p.screenColor} imageUrl={p.imageUrl} />
                   </Suspense>
                 </Canvas>
               </div>
 
-              <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.5rem', marginBottom: 8 }}>{p.title}</h3>
-              <p style={{ color: 'hsl(var(--ink-light))', fontSize: '1rem', marginBottom: 14 }}>{p.desc}</p>
+              <h3 className="blueprint-dark-text" style={{ fontFamily: 'var(--font-serif)', fontSize: '1.95rem', marginBottom: 8 }}>{p.title}</h3>
+              <p className="blueprint-dark-text break-words" style={{ color: 'hsl(var(--ink-light))', fontSize: '1.5rem', marginBottom: 14, lineHeight: 1.5 }}>{p.desc}</p>
               <div className="flex flex-wrap gap-1.5 mb-[18px]">
                 {p.stack.map(s => (
-                  <span key={s} className="px-2.5 py-0.5 rounded-full"
-                    style={{ fontFamily: 'var(--font-mono)', fontSize: '0.68rem', background: 'hsl(var(--shadow)/0.06)', border: '1px solid hsl(var(--ink-faint))', color: 'hsl(var(--ink-light))' }}>
+                  <span key={s} className="px-2.5 py-0.5 rounded-full blueprint-dark-text"
+                    style={{ fontFamily: 'var(--font-mono)', fontSize: '1.5rem', background: 'hsl(var(--shadow)/0.06)', border: '1px solid hsl(var(--ink-faint))', color: 'hsl(var(--ink-light))' }}>
                     {s}
                   </span>
                 ))}
               </div>
               <div className="flex gap-3">
-                <a href={p.live} className="px-3.5 py-1.5 rounded transition-all duration-300 hover:-translate-y-0.5"
-                  style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'hsl(var(--blue))', border: '1px solid hsl(var(--blue))', textDecoration: 'none' }}>
-                  ↗ Live
-                </a>
+                {p.live ? (
+                  <a href={p.live} target="_blank" rel="noreferrer" className="px-3.5 py-1.5 rounded transition-all duration-300 hover:-translate-y-0.5"
+                    style={{ fontFamily: 'var(--font-mono)', fontSize: '1.5rem', color: 'hsl(var(--blue))', border: '1px solid hsl(var(--blue))', textDecoration: 'none' }}>
+                    ↗ Live
+                  </a>
+                ) : (
+                  <span className="px-3.5 py-1.5 rounded"
+                    style={{ fontFamily: 'var(--font-mono)', fontSize: '1.5rem', color: 'hsl(var(--ink-faint))', border: '1px dashed hsl(var(--ink-faint))' }}>
+                    No live demo
+                  </span>
+                )}
                 <a href={p.code} className="px-3.5 py-1.5 rounded transition-all duration-300 hover:-translate-y-0.5"
-                  style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'hsl(var(--blue))', border: '1px solid hsl(var(--blue))', textDecoration: 'none' }}>
+                  target="_blank" rel="noreferrer"
+                  style={{ fontFamily: 'var(--font-mono)', fontSize: '1.5rem', color: 'hsl(var(--blue))', border: '1px solid hsl(var(--blue))', textDecoration: 'none' }}>
                   ⌥ Code
                 </a>
               </div>
@@ -147,7 +136,7 @@ const ProjectsSection = () => {
             {/* Nav row */}
             <div className="flex items-center justify-between mt-4 pt-3" style={{ borderTop: '1px dashed hsl(var(--ink-faint))' }}>
               <button onClick={prev} className="px-3.5 py-1.5 rounded transition-all duration-300 hover:bg-black/5"
-                style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8rem', background: 'transparent', border: '1.5px solid hsl(var(--ink-faint))', color: 'hsl(var(--ink-light))' }}>
+                style={{ fontFamily: 'var(--font-mono)', fontSize: '1.5rem', background: 'transparent', border: '1.5px solid hsl(var(--ink-faint))', color: 'hsl(var(--ink-light))' }}>
                 ← Prev
               </button>
               <div className="flex gap-[7px]">
@@ -161,7 +150,7 @@ const ProjectsSection = () => {
                 ))}
               </div>
               <button onClick={next} className="px-3.5 py-1.5 rounded transition-all duration-300 hover:bg-black/5"
-                style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8rem', background: 'transparent', border: '1.5px solid hsl(var(--ink-faint))', color: 'hsl(var(--ink-light))' }}>
+                style={{ fontFamily: 'var(--font-mono)', fontSize: '1.5rem', background: 'transparent', border: '1.5px solid hsl(var(--ink-faint))', color: 'hsl(var(--ink-light))' }}>
                 Next →
               </button>
             </div>

@@ -1,12 +1,6 @@
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
-
-const skillGroups = [
-  { title: 'Frontend', tags: ['React', 'Next.js', 'TypeScript', 'Tailwind', 'Vite'] },
-  { title: 'Animation', tags: ['GSAP', 'Framer Motion', 'Three.js', 'CSS Anim', 'Lottie'] },
-  { title: 'Design', tags: ['Figma', 'Photoshop', 'Illustration', 'Prototyping'] },
-  { title: 'Backend', tags: ['Node.js', 'Supabase', 'PostgreSQL', 'REST', 'GraphQL'] },
-];
+import { skillGroups } from '@/data/portfolio';
 
 const pinColors = [
   'radial-gradient(circle at 35% 35%, #ff8a8a, #cc3333)',
@@ -56,7 +50,7 @@ const SkillsSection = () => {
                 style={{ background: pinColors[i], boxShadow: '0 2px 5px rgba(0,0,0,0.3), inset 0 -1px 2px rgba(0,0,0,0.2)' }} />
 
               <h3 className="pb-2 mb-3" style={{
-                fontFamily: 'var(--font-mono)', fontSize: '0.75rem', letterSpacing: '0.1em',
+                fontFamily: 'var(--font-mono)', fontSize: '1.5rem', letterSpacing: '0.1em',
                 textTransform: 'uppercase', color: 'hsl(var(--ink-light))',
                 borderBottom: '1px dashed hsl(var(--ink-faint))',
               }}>
@@ -64,7 +58,7 @@ const SkillsSection = () => {
               </h3>
               <div className="flex flex-wrap gap-1.5">
                 {group.tags.map(tag => (
-                  <span key={tag} className="text-base px-2.5 py-0.5 transition-all duration-200"
+                  <span key={tag} className="text-[1.8rem] px-2.5 py-0.5 transition-all duration-200"
                     style={{
                       fontFamily: 'var(--font-hand)', border: '1.5px solid hsl(var(--ink))',
                       borderRadius: 'var(--r-sketchy)', cursor: 'default',

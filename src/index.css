@@ -49,6 +49,74 @@
     --r-sketchy2: 3px 255px 5px 25px / 255px 5px 225px 3px;
     --r-sketchy3: 20px 3px 30px 5px / 3px 20px 5px 30px;
   }
+
+  .theme-blueprint {
+    --bg: 220 50% 12%; /* Deep Navy */
+    --bg-card: 220 40% 10%; 
+    --bg-dark: 200 40% 5%;
+    --ink: 190 100% 85%; /* Glowing Cyan */
+    --ink-light: 190 80% 65%;
+    --ink-faint: 190 50% 30%;
+    --yellow: 180 100% 70%;
+    --yellow-dim: 180 100% 30%;
+    --pink: 320 80% 70%;
+    --green: 150 70% 60%;
+    --blue: 210 100% 70%;
+    --paper-line: 190 60% 25%;
+    --shadow: 190 100% 90%;
+
+    --background: var(--bg);
+    --foreground: var(--ink);
+    --card: var(--bg-card);
+    --card-foreground: var(--ink);
+    --popover: var(--bg-card);
+    --popover-foreground: var(--ink);
+    --primary: var(--ink);
+    --primary-foreground: var(--bg);
+    --border: var(--ink-faint);
+  }
+
+  .theme-blueprint body {
+    background-color: hsl(var(--bg));
+    color: hsl(var(--ink));
+    background-image: 
+      linear-gradient(hsla(var(--ink-light) / 0.15) 1px, transparent 1px),
+      linear-gradient(90deg, hsla(var(--ink-light) / 0.15) 1px, transparent 1px) !important;
+    background-size: 20px 20px !important;
+    transition: background-color 0.4s ease, color 0.4s ease, background-image 0.4s ease;
+  }
+
+  .theme-blueprint h1, .theme-blueprint h2, .theme-blueprint h3, .theme-blueprint h4, .theme-blueprint h5, .theme-blueprint h6 {
+    font-family: var(--font-mono) !important;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    text-shadow: 0 0 10px hsla(var(--ink) / 0.5);
+  }
+
+  .theme-blueprint .btn-sketch {
+    border-radius: 0;
+    box-shadow: 4px 4px 0 hsla(var(--ink) / 0.8) !important;
+    text-transform: uppercase;
+    font-family: var(--font-mono) !important;
+  }
+
+  body.theme-blueprint .blueprint-dark-text {
+    color: #101114 !important;
+    text-shadow: none !important;
+  }
+
+  @keyframes boiling-wiggle {
+    0% { filter: url(#boiling-1); }
+    25% { filter: url(#boiling-2); }
+    50% { filter: url(#boiling-3); }
+    75% { filter: url(#boiling-4); }
+    100% { filter: url(#boiling-1); }
+  }
+
+  .boiling-line {
+    animation: boiling-wiggle 0.5s infinite steps(1);
+    transform: translateZ(0); /* Force HW acceleration */
+  }
 }
 
 @layer base {
@@ -67,8 +135,8 @@
     background: hsl(var(--bg));
     color: hsl(var(--ink));
     font-family: var(--font-hand);
-    font-size: 1.15rem;
-    line-height: 1.7;
+    font-size: 2.41rem;
+    line-height: 1.8;
     overflow-x: hidden;
   }
 
@@ -102,6 +170,19 @@
   }
 }
 
+/* About P */
+.about-p {
+  font-size: 2.41rem;
+  line-height: 1.7;
+  margin-bottom: 32px;
+  color: hsl(var(--ink-light));
+  max-width: 90%;
+}
+.about-p strong {
+  color: hsl(var(--ink));
+  font-weight: 600;
+}
+
 /* Margin line */
 .margin-line {
   position: fixed;
@@ -128,23 +209,23 @@
 
 /* Section base */
 .section {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 80px 60px;
+  padding: 100px 80px;
   position: relative;
   z-index: 2;
 }
 
 .section-label {
   font-family: var(--font-mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.15em;
+  font-size: 1.5rem;
+  letter-spacing: 0.25em;
   text-transform: uppercase;
   color: hsl(var(--ink-faint));
-  margin-bottom: 12px;
+  margin-bottom: 24px;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 14px;
 }
 .section-label::before {
   content: '//';
@@ -153,9 +234,9 @@
 
 .section h2 {
   font-family: var(--font-serif);
-  font-size: clamp(1.8rem, 4vw, 3.2rem);
+  font-size: clamp(4rem, 8vw, 6.5rem);
   line-height: 1.15;
-  margin-bottom: 48px;
+  margin-bottom: 64px;
   letter-spacing: -0.02em;
 }
 
@@ -180,31 +261,31 @@
 /* Sketchy button */
 .btn-sketch {
   font-family: var(--font-hand);
-  font-size: 1.1rem;
-  font-weight: 600;
-  padding: 10px 28px;
+  font-size: 2.34rem;
+  font-weight: 700;
+  padding: 14px 44px;
   background: hsl(var(--ink));
   color: hsl(var(--bg));
-  border: 2px solid hsl(var(--ink));
+  border: 3px solid hsl(var(--ink));
   border-radius: var(--r-sketchy);
   cursor: pointer;
   text-decoration: none;
   display: inline-block;
   position: relative;
   transition: box-shadow 0.3s, background 0.3s, color 0.3s, transform 0.2s ease-out;
-  box-shadow: 4px 4px 0 hsl(var(--ink-faint));
+  box-shadow: 6px 6px 0 hsl(var(--ink-faint));
 }
 .btn-sketch:hover {
-  box-shadow: 8px 8px 0 hsl(var(--ink-faint));
+  box-shadow: 10px 10px 0 hsl(var(--ink-faint));
 }
 .btn-sketch.outline {
   background: transparent;
   color: hsl(var(--ink));
-  box-shadow: 4px 4px 0 hsl(var(--shadow) / 0.08);
+  box-shadow: 6px 6px 0 hsl(var(--shadow) / 0.08);
 }
 .btn-sketch.outline:hover {
   background: hsl(var(--yellow-dim));
-  box-shadow: 6px 6px 0 hsl(var(--shadow) / 0.1);
+  box-shadow: 8px 8px 0 hsl(var(--shadow) / 0.1);
 }
 
 /* Divider */
@@ -258,7 +339,7 @@
   background: hsl(var(--bg-card));
   border: 1.5px solid hsl(var(--ink-faint));
   font-family: var(--font-mono);
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   display: flex;
   align-items: center;
   justify-content: center;

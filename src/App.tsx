@@ -10,6 +10,26 @@ const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
+    {/* Global SVG Filters for "Boiling Line" Stop-Motion Effect */}
+    <svg style={{ position: 'absolute', width: 0, height: 0 }} aria-hidden="true">
+      <filter id="boiling-1">
+        <feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="3" result="noise" seed="0" />
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="2" xChannelSelector="R" yChannelSelector="G" />
+      </filter>
+      <filter id="boiling-2">
+        <feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="3" result="noise" seed="1" />
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="3" xChannelSelector="R" yChannelSelector="G" />
+      </filter>
+      <filter id="boiling-3">
+        <feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="3" result="noise" seed="2" />
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="2" xChannelSelector="R" yChannelSelector="G" />
+      </filter>
+      <filter id="boiling-4">
+        <feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="3" result="noise" seed="3" />
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="4" xChannelSelector="R" yChannelSelector="G" />
+      </filter>
+    </svg>
+
     <TooltipProvider>
       <Toaster />
       <Sonner />
