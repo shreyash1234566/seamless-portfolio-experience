@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import HeroCanvas from '@/components/portfolio/HeroCanvas';
 import Navbar from '@/components/portfolio/Navbar';
 import ScrollProgress from '@/components/portfolio/ScrollProgress';
@@ -16,26 +16,63 @@ import { CustomCursor } from '@/components/portfolio/CustomCursor';
 import { PaperTearReveal } from '@/components/portfolio/PaperTearReveal';
 import Footer from '@/components/portfolio/Footer';
 import { ChatbotWidget } from '@/components/portfolio/ChatbotWidget';
+import { ErrorBoundary } from '@/components/portfolio/ErrorBoundary';
 
 const Index = () => {
   // Fade hero canvas on scroll
   const [canvasOpacity, setCanvasOpacity] = useState(0.8);
+  const [lightweightMode, setLightweightMode] = useState(false);
+  const rafRef = useRef<number | null>(null);
 
   useEffect(() => {
-    const onScroll = () => {
-      const opacity = Math.max(0, 1 - (window.scrollY / window.innerHeight) * 1.5) * 0.8;
-      setCanvasOpacity(opacity);
-    };
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
+    if (typeof window === 'undefined') return;
+
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const mobile = window.matchMedia('(max-width: 900px)').matches;
+    const lowPowerCpu = typeof navigator.hardwareConcurrency === 'number' && navigator.hardwareConcurrency <= 4;
+
+    setLightweightMode(reducedMotion || mobile || lowPowerCpu);
   }, []);
+
+  useEffect(() => {
+    if (lightweightMode) {
+      setCanvasOpacity(0);
+      return;
+    }
+
+    const onScroll = () => {
+      if (rafRef.current !== null) return;
+      rafRef.current = window.requestAnimationFrame(() => {
+        const opacity = Math.max(0, 1 - (window.scrollY / window.innerHeight) * 1.5) * 0.8;
+        setCanvasOpacity(opacity);
+        rafRef.current = null;
+      });
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      if (rafRef.current !== null) {
+        window.cancelAnimationFrame(rafRef.current);
+        rafRef.current = null;
+      }
+    };
+  }, [lightweightMode]);
 
   return (
     <>
-      <CustomCursor />
-      <div style={{ opacity: canvasOpacity }}>
-        <HeroCanvas />
-      </div>
+      {!lightweightMode && (
+        <ErrorBoundary>
+          <CustomCursor />
+        </ErrorBoundary>
+      )}
+      {!lightweightMode && (
+        <ErrorBoundary>
+          <div style={{ opacity: canvasOpacity }}>
+            <HeroCanvas />
+          </div>
+        </ErrorBoundary>
+      )}
       <ScrollProgress />
       <Navbar />
       <HeroSection />

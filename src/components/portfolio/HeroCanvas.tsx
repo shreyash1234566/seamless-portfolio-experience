@@ -1,7 +1,6 @@
 import { useRef, useMemo, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
-import { useSpring, a } from '@react-spring/three';
 
 const WireframeSphere = () => {
   const ref = useRef<THREE.Mesh>(null);
@@ -21,28 +20,30 @@ const WireframeSphere = () => {
 
 const FloatingShape = ({ geo, color, position, speed }: { geo: THREE.BufferGeometry; color: string; position: [number, number, number]; speed: number }) => {
   const ref = useRef<THREE.Mesh>(null);
+  const [hovered, setHovered] = useState(false);
+  const currentScale = useRef(1);
+
   useFrame(() => {
     if (ref.current) {
       ref.current.rotation.x += speed;
       ref.current.rotation.y += speed;
+      // Smooth scale transition via lerp (replaces @react-spring/three)
+      const target = hovered ? 1.5 : 1;
+      currentScale.current += (target - currentScale.current) * 0.1;
+      ref.current.scale.setScalar(currentScale.current);
     }
   });
 
-  const [hovered, setHovered] = useState(false);
-  const { scale } = useSpring({ scale: hovered ? 1.5 : 1, config: { mass: 1, tension: 500, friction: 15 }});
-  const animatedScale = scale.to((s) => [s, s, s] as [number, number, number]);
-
   return (
-    <a.mesh 
+    <mesh 
       ref={ref}
       position={position} 
       geometry={geo} 
-      scale={animatedScale}
       onPointerOver={() => setHovered(true)}
       onPointerOut={() => setHovered(false)}
     >
       <meshBasicMaterial color={color} transparent opacity={0.6} />
-    </a.mesh>
+    </mesh>
   );
 };
 
@@ -106,7 +107,11 @@ const Scene = () => {
 
 const HeroCanvas = () => (
   <div className="fixed inset-0 z-0 pointer-events-none" style={{ opacity: 0.8 }}>
-    <Canvas camera={{ position: [0, 0, 8], fov: 60 }}>
+    <Canvas
+      camera={{ position: [0, 0, 8], fov: 60 }}
+      dpr={[1, 1.5]}
+      gl={{ antialias: false, powerPreference: 'high-performance' }}
+    >
       <Scene />
     </Canvas>
   </div>

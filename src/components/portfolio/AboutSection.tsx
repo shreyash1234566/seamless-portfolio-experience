@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
-import AboutPortraitSVG from './AboutPortraitSVG';
 import { aboutChapters, aboutNotes } from '@/data/portfolio';
 
 const chapters = [
@@ -130,7 +129,16 @@ const AboutSection = () => {
                 style={{ background: 'hsla(40,100%,68%,0.75)' }}>
                 <div className="absolute inset-0" style={{ background: 'repeating-linear-gradient(90deg,transparent,transparent 4px,rgba(255,255,255,0.3) 4px,rgba(255,255,255,0.3) 5px)' }} />
               </div>
-              <AboutPortraitSVG />
+              <img 
+                src="/projects/about-avatar.jpeg"
+                alt="Shreyash Avatar" 
+                width={768}
+                height={1024}
+                loading="lazy"
+                decoding="async"
+                className="w-full h-full object-cover object-top" 
+                style={{ backgroundColor: '#fffdf9' }}
+              />
               {/* Corner fold */}
               <div className="absolute bottom-0 right-0 z-[4]"
                 style={{ width: 0, height: 0, borderStyle: 'solid', borderWidth: '0 0 32px 32px', borderColor: 'transparent transparent hsl(var(--bg)) transparent', filter: 'drop-shadow(-2px -2px 3px rgba(0,0,0,0.08))' }} />

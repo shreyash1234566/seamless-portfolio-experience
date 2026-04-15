@@ -23,6 +23,7 @@ export const heroContent = {
   titleAccent: 'that feel alive',
   description:
     'B.Tech CSE student focused on production AI pipelines, GraphRAG, and full-stack ML apps. I design end-to-end systems that combine real data, strong engineering, and clear product outcomes.',
+  imageUrl: '/projects/hero-photo.png',
   ctas: [
     { href: '#contact', label: "Let's talk" },
     { href: '#projects', label: 'See my work' },

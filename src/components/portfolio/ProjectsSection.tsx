@@ -2,6 +2,7 @@ import { useState, useRef, Suspense } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Canvas } from '@react-three/fiber';
 import LaptopModel from './LaptopModel';
+import { ErrorBoundary } from './ErrorBoundary';
 import { projects, siteIdentity } from '@/data/portfolio';
 
 const ProjectsSection = () => {
@@ -94,13 +95,19 @@ const ProjectsSection = () => {
             <div className={`transition-all duration-300 ${fading ? 'opacity-0 translate-y-4 scale-[0.98]' : 'opacity-100 translate-y-0 scale-100'}`}>
               {/* 3D Laptop */}
               <div className="w-full aspect-video mb-6 flex items-center justify-center">
-                <Canvas camera={{ position: [0, 0, 4], fov: 45 }} style={{ width: '100%', height: '100%' }}>
-                  <ambientLight intensity={0.7} />
-                  <directionalLight position={[5, 5, 5]} intensity={0.5} />
-                  <Suspense fallback={null}>
-                    <LaptopModel screenColor={p.screenColor} imageUrl={p.imageUrl} />
-                  </Suspense>
-                </Canvas>
+                <ErrorBoundary fallback={
+                  <div className="w-full h-full flex items-center justify-center rounded-lg" style={{ background: p.screenColor, minHeight: 200 }}>
+                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '1.2rem', color: '#fff', opacity: 0.7 }}>3D preview unavailable</span>
+                  </div>
+                }>
+                  <Canvas camera={{ position: [0, 0, 4], fov: 45 }} style={{ width: '100%', height: '100%' }}>
+                    <ambientLight intensity={0.7} />
+                    <directionalLight position={[5, 5, 5]} intensity={0.5} />
+                    <Suspense fallback={null}>
+                      <LaptopModel screenColor={p.screenColor} imageUrl={p.imageUrl} />
+                    </Suspense>
+                  </Canvas>
+                </ErrorBoundary>
               </div>
 
               <h3 className="blueprint-dark-text" style={{ fontFamily: 'var(--font-serif)', fontSize: '1.95rem', marginBottom: 8 }}>{p.title}</h3>

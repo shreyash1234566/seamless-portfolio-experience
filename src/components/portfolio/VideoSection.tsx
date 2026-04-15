@@ -1,19 +1,24 @@
-import { useRef, useState } from 'react';
-import { motion, useScroll, useTransform, useInView } from 'framer-motion';
+import { useEffect, useRef, useState } from 'react';
+import { motion, useInView } from 'framer-motion';
 import { videoContent } from '@/data/portfolio';
 
 const VideoSection = () => {
   const containerRef = useRef<HTMLElement>(null);
-  const videoRef = useRef<HTMLDivElement>(null);
-  const [isHovered, setIsHovered] = useState(false);
-  
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ['start end', 'end start'],
-  });
+  const [iframeLoaded, setIframeLoaded] = useState(false);
+  const [showFallback, setShowFallback] = useState(false);
 
   const isInView = useInView(containerRef, { once: true, margin: '-100px' });
-  const yImage = useTransform(scrollYProgress, [0, 1], [-40, 40]);
+
+  useEffect(() => {
+    if (iframeLoaded) {
+      setShowFallback(false);
+      return;
+    }
+    const id = window.setTimeout(() => {
+      setShowFallback(true);
+    }, 7000);
+    return () => window.clearTimeout(id);
+  }, [iframeLoaded]);
 
   return (
     <section 
@@ -53,61 +58,61 @@ const VideoSection = () => {
           </ul>
         </motion.div>
 
-        {/* Right Side: Media/Video Panel with fuzzy hover */}
+        {/* Right Side: Media/Video Panel */}
         <motion.div
-          ref={videoRef}
           initial={{ opacity: 0, y: 40 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-          className="relative w-full aspect-[4/5] md:aspect-video rounded-xl overflow-hidden cursor-pointer group"
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-          style={{
-            boxShadow: '16px 24px 60px hsl(var(--shadow)/0.12), 4px 8px 16px hsl(var(--shadow)/0.06)',
-            border: '2px solid hsl(var(--ink))',
-            borderRadius: 'var(--r-sketchy)',
-            transform: 'rotate(1deg)' // Slight skew for sketchbook theme
-          }}
+          className="relative w-full"
         >
-          {/* Main Media Image (Using placeholder since video might fail to autoplay on some stacks, 
-              but you can drop a <video> tag here) */}
-           <motion.div 
-            className="absolute inset-0 w-[110%] h-[110%] -left-[5%] -top-[5%]" 
-            style={{ y: yImage }}
-          >
-            <img 
-              src={videoContent.imageUrl}
-              alt={videoContent.imageAlt}
-              className="w-full h-full object-cover"
-            />
-          </motion.div>
-
-          {/* Fuzzy/Blur overlay mask on hover */}
-          <motion.div 
-            className="absolute inset-0 pointer-events-none transition-all duration-500 ease-out flex items-center justify-center"
-            style={{ 
-              backdropFilter: isHovered ? 'blur(12px) contrast(1.1) sepia(1.2)' : 'blur(0px)',
-              backgroundColor: isHovered ? 'rgba(255, 230, 200, 0.15)' : 'transparent',
-              opacity: isHovered ? 1 : 0
-            }}
-          >
-            {/* Play button / interaction hint on hover */}
-            <div 
-              className="w-20 h-20 rounded-full flex items-center justify-center transition-all duration-300"
-              style={{
-                background: 'hsl(var(--ink))',
-                color: 'hsl(var(--bg))',
-                transform: isHovered ? 'scale(1)' : 'scale(0.8)',
-                boxShadow: '0 10px 30px rgba(0,0,0,0.3)',
-                border: '2px solid hsl(var(--yellow))'
-              }}
-            >
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="ml-1">
-                <polygon points="5 3 19 12 5 21 5 3"></polygon>
-              </svg>
+          <div className="portfolio-card" style={{ maxWidth: '600px', margin: '0 auto', fontFamily: 'sans-serif', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            <div className="video-wrapper" style={{ borderRadius: '8px', overflow: 'hidden', boxShadow: '0 4px 12px rgba(0,0,0,0.1)', background: '#fff' }}>
+              {!showFallback ? (
+                <iframe
+                  src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7357861053755498496?compact=1"
+                  height="399"
+                  width="100%"
+                  frameBorder="0"
+                  allowFullScreen={true}
+                  loading="lazy"
+                  title="Embedded post"
+                  style={{ display: 'block' }}
+                  onLoad={() => setIframeLoaded(true)}
+                ></iframe>
+              ) : (
+                <div
+                  className="flex items-center justify-center text-center p-8"
+                  style={{ minHeight: 260, background: '#f4f1e8', color: 'hsl(var(--ink-light))' }}
+                >
+                  <div>
+                    <p style={{ fontSize: '1.5rem', marginBottom: 12 }}>
+                      LinkedIn embed is blocked by privacy or network settings.
+                    </p>
+                    <a
+                      href="https://www.linkedin.com/feed/update/urn:li:ugcPost:7357861053755498496"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ color: '#0a66c2', fontWeight: 700, textDecoration: 'none' }}
+                    >
+                      Open video on LinkedIn
+                    </a>
+                  </div>
+                </div>
+              )}
             </div>
-          </motion.div>
 
+            <div className="social-link" style={{ textAlign: 'left' }}>
+              <a href="https://www.linkedin.com/feed/update/urn:li:ugcPost:7357861053755498496" 
+                 target="_blank" 
+                 rel="noopener noreferrer"
+                 style={{ textDecoration: 'none', color: '#0a66c2', fontWeight: 600, fontSize: '15px', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                View original LinkedIn post
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+              </a>
+            </div>
+          </div>
         </motion.div>
 
       </div>

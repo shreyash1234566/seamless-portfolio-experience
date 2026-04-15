@@ -1,6 +1,5 @@
 import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import PortraitSVG from './PortraitSVG';
 import { heroContent } from '@/data/portfolio';
 
 const HeroSection = () => {
@@ -20,7 +19,7 @@ const HeroSection = () => {
       id="hero"
       ref={sectionRef}
       className="relative min-h-screen grid grid-cols-1 md:grid-cols-2 items-center gap-12 overflow-hidden mx-auto w-full max-w-[1500px]"
-      style={{ padding: '120px 80px 80px' }}
+      style={{ padding: '120px clamp(20px, 6vw, 80px) 80px' }}
     >
       {/* Left: text */}
       <motion.div className="relative z-[2]" style={{ y: contentY, opacity }}>
@@ -101,7 +100,17 @@ const HeroSection = () => {
               border: '2px solid hsl(var(--ink))',
               boxShadow: '8px 8px 0 hsl(var(--shadow)/0.08), 16px 16px 30px rgba(0,0,0,0.05)',
             }}>
-            <PortraitSVG />
+            <img 
+              src={heroContent.imageUrl}
+              alt="Shreyash Photo" 
+              width={768}
+              height={1024}
+              loading="eager"
+              fetchPriority="high"
+              decoding="async"
+              className="w-full h-full object-cover object-center"
+              style={{ filter: 'contrast(1.05) saturate(1.1)' }}
+            />
           </div>
 
           {/* Floating doodles */}

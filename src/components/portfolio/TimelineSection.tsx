@@ -76,7 +76,7 @@ const TimelineSection = () => (
     <h2>Career & <span className="accent">achievements</span></h2>
     <div className="relative py-5">
       {/* Rail */}
-      <div className="absolute left-1/2 top-0 bottom-0 w-0.5 -translate-x-1/2"
+      <div className="absolute left-1/2 top-0 bottom-0 w-0.5 -translate-x-1/2 hidden md:block"
         style={{ background: 'repeating-linear-gradient(to bottom, hsl(var(--ink)) 0, hsl(var(--ink)) 6px, transparent 6px, transparent 12px)' }} />
       {timelineItems.map((item, i) => (
         <TimelineItem key={`${item.year}-${item.title}`} item={item} index={i} />
