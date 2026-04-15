@@ -8,7 +8,7 @@ const TimelineItem = ({ item, index }: { item: typeof timelineItems[0]; index: n
   const isOdd = index % 2 === 0;
 
   return (
-    <div ref={ref} className="grid gap-5 mb-12 items-center grid-cols-1 md:grid-cols-[1fr_60px_1fr]">
+    <div ref={ref} className="w-[85vw] shrink-0 snap-center md:w-auto md:shrink md:grid gap-5 mb-0 md:mb-12 items-center grid-cols-1 md:grid-cols-[1fr_60px_1fr] flex flex-col">
       {isOdd ? (
         <>
           <div className="text-left md:text-right">
@@ -74,7 +74,7 @@ const TimelineSection = () => (
   <section id="experience" className="section">
     <p className="section-label">experience</p>
     <h2>Career & <span className="accent">achievements</span></h2>
-    <div className="relative py-5">
+    <div className="relative py-5 flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8 md:block md:gap-0 md:overflow-visible [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
       {/* Rail */}
       <div className="absolute left-1/2 top-0 bottom-0 w-0.5 -translate-x-1/2 hidden md:block"
         style={{ background: 'repeating-linear-gradient(to bottom, hsl(var(--ink)) 0, hsl(var(--ink)) 6px, transparent 6px, transparent 12px)' }} />

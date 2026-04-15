@@ -27,11 +27,11 @@ const SkillsSection = () => {
           boxShadow: 'inset 0 2px 8px rgba(0,0,0,0.12), 0 12px 30px rgba(0,0,0,0.1)',
           perspective: 1200,
         }}>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 relative">
+        <div className="flex overflow-x-auto snap-x snap-mandatory sm:grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 relative pb-6 sm:pb-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
           {skillGroups.map((group, i) => (
             <motion.div
               key={group.title}
-              className="relative pt-5 pb-4 px-[18px]"
+              className="shrink-0 w-[85vw] sm:w-auto snap-center relative pt-5 pb-4 px-[18px]"
               style={{
                 background: 'hsl(var(--bg-card))',
                 border: '1.5px solid hsl(var(--ink-faint))',

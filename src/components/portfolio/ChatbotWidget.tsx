@@ -31,7 +31,7 @@ export function ChatbotWidget() {
   };
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end">
+    <div className="fixed bottom-6 right-6 z-[100] flex flex-col items-end">
       {/* Chat Window */}
       {isOpen && (
         <Card className="w-[400px] max-w-[calc(100vw-2rem)] h-[600px] max-h-[calc(100vh-6rem)] flex flex-col shadow-2xl border-primary/20 backdrop-blur-md bg-background/95 mb-4 animate-in slide-in-from-bottom-5">

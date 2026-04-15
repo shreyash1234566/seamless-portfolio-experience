@@ -129,15 +129,18 @@
 
   html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
+    width: 100%;
   }
 
   body {
     background: hsl(var(--bg));
     color: hsl(var(--ink));
     font-family: var(--font-hand);
-    font-size: 2.41rem;
+    font-size: 1.5rem;
     line-height: 1.8;
     overflow-x: hidden;
+    width: 100%;
   }
 
   /* Paper lines background */
@@ -172,11 +175,11 @@
 
 /* About P */
 .about-p {
-  font-size: 2.41rem;
+  font-size: clamp(1.2rem, 4vw, 2.41rem);
   line-height: 1.7;
-  margin-bottom: 32px;
+  margin-bottom: 24px;
   color: hsl(var(--ink-light));
-  max-width: 90%;
+  max-width: 100%;
 }
 .about-p strong {
   color: hsl(var(--ink));
@@ -186,13 +189,18 @@
 /* Margin line */
 .margin-line {
   position: fixed;
-  left: 52px;
+  left: 20px;
   top: 0;
   bottom: 0;
   width: 1px;
   background: rgba(255, 100, 80, 0.2);
   z-index: 1;
   pointer-events: none;
+}
+@media (min-width: 768px) {
+  .margin-line {
+    left: 52px;
+  }
 }
 
 /* Scroll progress bar */
@@ -209,23 +217,29 @@
 
 /* Section base */
 .section {
+  width: 100%;
   max-width: 1400px;
   margin: 0 auto;
-  padding: 100px 80px;
+  padding: 60px 24px;
   position: relative;
   z-index: 2;
+}
+@media (min-width: 768px) {
+  .section {
+    padding: 100px 80px;
+  }
 }
 
 .section-label {
   font-family: var(--font-mono);
-  font-size: 1.5rem;
-  letter-spacing: 0.25em;
+  font-size: clamp(1rem, 2vw, 1.5rem);
+  letter-spacing: 0.15em;
   text-transform: uppercase;
   color: hsl(var(--ink-faint));
-  margin-bottom: 24px;
+  margin-bottom: 16px;
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 10px;
 }
 .section-label::before {
   content: '//';
@@ -234,10 +248,21 @@
 
 .section h2 {
   font-family: var(--font-serif);
-  font-size: clamp(4rem, 8vw, 6.5rem);
+  font-size: clamp(2.5rem, 8vw, 6.5rem);
   line-height: 1.15;
-  margin-bottom: 64px;
+  margin-bottom: 40px;
   letter-spacing: -0.02em;
+}
+@media (min-width: 768px) {
+  .section h2 {
+    margin-bottom: 64px;
+  }
+  .section-label {
+    font-size: 1.5rem;
+    letter-spacing: 0.25em;
+    gap: 14px;
+    margin-bottom: 24px;
+  }
 }
 
 .accent {

@@ -57,7 +57,7 @@ const ChapterBlock = ({ chapter, index }: { chapter: typeof chapters[0]; index: 
   return (
     <motion.div
       ref={ref}
-      className="min-h-[55vh] flex flex-col justify-center py-8"
+      className="min-h-auto md:min-h-[55vh] flex flex-col justify-start md:justify-center py-4 md:py-8 h-full"
       initial={{ opacity: 0, y: 40 }}
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0.15, y: 40 }}
       transition={{ duration: 0.9, ease: [0.2, 0.8, 0.2, 1] }}
@@ -95,24 +95,24 @@ const AboutSection = () => {
 
   return (
     <section id="about" className="section" style={{ maxWidth: 'none', paddingLeft: 0, paddingRight: 0, paddingBottom: 0 }}>
-      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 60px 48px' }}>
+      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 60px 48px' }} className="px-6 md:px-[60px]">
         <p className="section-label">origin story</p>
         <h2>From ideas to <span className="accent">production AI</span></h2>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-[60px] items-start" style={{ maxWidth: 1200, margin: '0 auto', padding: '0 60px' }}>
+      <div className="flex flex-col md:grid md:grid-cols-2 gap-[40px] md:gap-[60px] items-start px-0 md:px-[60px]" style={{ maxWidth: 1200, margin: '0 auto' }}>
         {/* Left: scrollable chapters */}
-        <div ref={chaptersRef} className="pb-24">
+        <div ref={chaptersRef} className="flex flex-row overflow-x-auto snap-x snap-mandatory gap-6 px-6 md:px-0 pb-8 pt-4 md:block md:overflow-visible md:pb-24 md:pt-0 w-full order-2 md:order-1 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
           {chapters.map((ch, i) => (
-            <div key={i} data-idx={i}>
+            <div key={i} data-idx={i} className="w-[85vw] max-w-[400px] shrink-0 snap-center md:w-auto md:max-w-none md:shrink">
               <ChapterBlock chapter={ch} index={i} />
             </div>
           ))}
         </div>
 
         {/* Right: sticky portrait */}
-        <div>
-          <div className="sticky" style={{ top: 'calc(50vh - 350px)', maxWidth: 500, height: 600, margin: '40px auto 0' }}>
+        <div className="w-full px-6 md:px-0 order-1 md:order-2">
+          <div className="relative md:sticky mx-auto" style={{ top: 'calc(50vh - 350px)', maxWidth: 500, height: 600, margin: '0 auto 40px' }}>
             <div
               className="w-full h-full relative overflow-hidden transition-transform duration-600"
               style={{
